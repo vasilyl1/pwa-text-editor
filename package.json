@@ -1,0 +1,33 @@
+{
+  "name": "pwa-text-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "",
+    "start": "",
+    "server": "",
+    "build": "",
+    "install": "",
+    "client": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasilyl1/pwa-text-editor.git"
+  },
+  "keywords": [],
+  "author": "Vasily Likhovaydo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "if-env": "^1.0.4"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4"
+  },
+  "bugs": {
+    "url": "https://github.com/vasilyl1/pwa-text-editor/issues"
+  },
+  "homepage": "https://github.com/vasilyl1/pwa-text-editor#readme"
+}
