@@ -1,14 +1,14 @@
 import { openDB } from 'idb';
 
 const initdb = async () =>
-  openDB('jate', 1, {
+  openDB('editorDb', 1, {
     upgrade(db) {
       if (db.objectStoreNames.contains('editorDb')) {
-        console.log('jate database already exists');
+        console.log('editorDb database already exists');
         return;
       }
       db.createObjectStore('editorDb', { keyPath: 'id', autoIncrement: true });
-      console.log('jate database created');
+      console.log('editorDb database created');
     },
   });
 
@@ -19,10 +19,10 @@ export const putDb = async (content) => {
     const contactDb = await openDB('editorDb', 1);
   
     // Create a new transaction and specify the database and data privileges.
-    const tx = contactDb.transaction('editorDb', 'readwrite');
+    const tx = await contactDb.transaction('editorDb', 'readwrite');
   
     // Open up the desired object store.
-    const store = tx.objectStore('editorDb');
+    const store = await tx.objectStore('editorDb');
   
     // Use the .add() method on the store and pass in the content.
     return await store.add(content);
@@ -36,10 +36,10 @@ export const getDb = async () => {
     const contactDb = await openDB('editorDb', 1);
   
     // Create a new transaction and specify the database and data privileges.
-    const tx = contactDb.transaction('editorDb', 'readonly');
+    const tx = await contactDb.transaction('editorDb', 'readonly');
   
     // Open up the desired object store.
-    const store = tx.objectStore('editorDb');
+    const store = await tx.objectStore('editorDb');
   
     // Use the .getAll() method to get all data in the database.
     return await store.getAll();
