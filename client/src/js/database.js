@@ -1,14 +1,14 @@
 import { openDB } from 'idb';
 
 const initdb = async () =>
-  openDB('editorDb', 1, {
+  openDB('editor', 1, {
     upgrade(db) {
-      if (db.objectStoreNames.contains('editorDb')) {
+      if (db.objectStoreNames.contains('editor')) {
         console.log('editorDb database already exists');
         return;
       }
-      db.createObjectStore('editorDb', { keyPath: 'id', autoIncrement: true });
-      console.log('editorDb database created');
+      db.createObjectStore('editor', { keyPath: 'id', autoIncrement: true });
+      console.log('editorDb created');
     },
   });
 
@@ -16,16 +16,18 @@ const initdb = async () =>
 export const putDb = async (content) => {
 
     // Create a connection to the database database and version we want to use.
-    const contactDb = await openDB('editorDb', 1);
+    const contactDb = await openDB('editor', 1);
   
     // Create a new transaction and specify the database and data privileges.
-    const tx = await contactDb.transaction('editorDb', 'readwrite');
+    const tx = contactDb.transaction('editor', 'readwrite');
   
     // Open up the desired object store.
-    const store = await tx.objectStore('editorDb');
+    const store = tx.objectStore('editor');
   
     // Use the .add() method on the store and pass in the content.
-    return await store.add(content);
+    await store.clear();
+    const request = await store.add({ content: content });
+    console.log('🚀 - data saved to the database', request);
  
 };
 
@@ -33,16 +35,17 @@ export const putDb = async (content) => {
 export const getDb = async () => {
 
     // Create a connection to the database database and version we want to use.
-    const contactDb = await openDB('editorDb', 1);
+    const contactDb = await openDB('editor', 1);
   
     // Create a new transaction and specify the database and data privileges.
-    const tx = await contactDb.transaction('editorDb', 'readonly');
+    const tx = contactDb.transaction('editor', 'readonly');
   
     // Open up the desired object store.
-    const store = await tx.objectStore('editorDb');
+    const store = tx.objectStore('editor');
   
     // Use the .getAll() method to get all data in the database.
-    return await store.getAll();
+    const request = await store.getAll();
+    return request.content;
 };
 
 initdb();
